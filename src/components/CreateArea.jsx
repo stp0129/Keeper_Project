@@ -1,11 +1,14 @@
 import React from "react";
+import AddIcon from "@material-ui/icons/Add";
+import Fab from "@material-ui/core/Fab";
 
 function CreateArea(props) {
-  // const [notes, setNotes] = React.useState([]);
   const [newNote, setNewNote] = React.useState({
     title: "",
     content: ""
   });
+
+  const [expand, setExpand] = React.useState(false);
 
   function changeHandler(event) {
     const inputEvent = event.target.value;
@@ -40,11 +43,15 @@ function CreateArea(props) {
     });
     event.preventDefault();
   }
+  function clickExpander(event) {
+    setExpand(true);
+  }
 
   return (
     <div>
-      <form onSubmit={clickHandler}>
+      <form className="create-note" onSubmit={clickHandler}>
         <input
+          style={{ display: expand ? "" : "none" }}
           onChange={changeHandler}
           name="title"
           placeholder="Title"
@@ -52,12 +59,15 @@ function CreateArea(props) {
         />
         <textarea
           onChange={changeHandler}
+          onClick={clickExpander}
           name="content"
           placeholder="Take a note..."
-          rows="3"
+          rows={expand ? "3" : "1"}
           value={newNote.content}
         />
-        <button type="submit">Add</button>
+        <Fab type="submit">
+          <AddIcon />
+        </Fab>
       </form>
     </div>
   );
